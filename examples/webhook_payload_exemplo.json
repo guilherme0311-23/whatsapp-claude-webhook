@@ -1,0 +1,16 @@
+{
+  "event": "messages.upsert",
+  "instance": "loja-estrela-bot",
+  "data": {
+    "key": {
+      "remoteJid": "5535999999999@s.whatsapp.net",
+      "fromMe": false,
+      "id": "3EB0C767D26A1D6C7A9F"
+    },
+    "message": {
+      "conversation": "Qual o horário de funcionamento da loja?"
+    },
+    "messageType": "conversation",
+    "messageTimestamp": 1735000000
+  }
+}
