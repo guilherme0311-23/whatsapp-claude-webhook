@@ -31,8 +31,6 @@ Essa é uma regra que não teve segunda versão: não existe implementação sí
 - **Erro tratado por tipo, não genérico**: `AuthenticationError`, `RateLimitError`, `APITimeoutError` e `APIError` retornam status HTTP e mensagem específicos — o cliente final nunca vê stack trace cru
 - **Resistência a prompt injection testada**: o system prompt define escopo (só responde sobre horário e produtos) e foi testado ativamente tentando "quebrar" o próprio bot antes de considerar essa etapa fechada
 - **DRY real**: `/chat` e `/webhook` chamam a mesma função `perguntar_claude()` — zero duplicação de lógica de IA entre os dois pontos de entrada
-- **9 erros de infraestrutura documentados** durante o desenvolvimento (Docker, PowerShell, Evolution API, encoding), com causa raiz e solução registradas — não é "tentei até funcionar", é debug metódico
-
 ## Estado atual (honestidade > hype)
 
 - ✅ Lógica de webhook, processamento assíncrono e integração com Claude: **validada e funcional**, testada via simulação de payload (Postman) reproduzindo o formato real de evento `messages.upsert`
