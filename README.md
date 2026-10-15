@@ -34,6 +34,9 @@ Essa é uma regra que não teve segunda versão: não existe implementação sí
 ## Estado atual (honestidade > hype)
 
 - ✅ Lógica de webhook, processamento assíncrono e integração com Claude: **validada e funcional**, testada via simulação de payload (Postman) reproduzindo o formato real de evento `messages.upsert`
+
+- 🚧 Persistência com Supabase: **estrutura pronta, integração pendente**. O schema (`sql/schema.sql`) e as funções de acesso (`app/services/supabase_service.py`) existem, e as tabelas `sessoes` e `mensagens` estão criadas com RLS ativado. Ainda não estão ligadas ao `/webhook`, então hoje nenhuma mensagem é salva. As variáveis `SUPABASE_*` só serão necessárias quando essa integração for ligada.
+
 - ⏳ Conexão real com uma instância de WhatsApp (via Evolution API ou similar): **pendente** — é um gate de infraestrutura separado (licenciamento, Docker, Postgres/Redis), não um gap de lógica de aplicação
 
 Em outras palavras: o "cérebro" do bot está pronto e testado. O "cano" que liga ele a um número de WhatsApp real é a próxima etapa, e depende de infraestrutura de terceiros, não de código.
