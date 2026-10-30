@@ -5,7 +5,7 @@ client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
 def perguntar_claude(texto: str) -> str:
     response = client.messages.create(
-        model="claude-sonnet-4-5",
+        model="claude-sonnet-5-5",
         max_tokens=1024,
         system=""" 
                 Você é o assistente virtual da Loja Estrela. 
