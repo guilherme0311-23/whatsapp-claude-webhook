@@ -2,9 +2,10 @@
 
 Bot de atendimento via WhatsApp que usa a API da Anthropic (Claude) para responder clientes automaticamente, com processamento assíncrono e tratamento de erros robusto.
 
-![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.141-009688)
 ![Anthropic](https://img.shields.io/badge/Anthropic%20SDK-0.122-D97757)
+![Tests](https://github.com/guilherme0311-23/whatsapp-claude-webhook/actions/workflows/tests.yml/badge.svg)
 
 ## O que esse projeto faz
 
@@ -29,11 +30,13 @@ Essa é uma regra que não teve segunda versão: não existe implementação sí
 ## Pontos defensáveis (o que dá pra provar, não só prometer)
 
 - **Erro tratado por tipo, não genérico**: `AuthenticationError`, `RateLimitError`, `APITimeoutError` e `APIError` retornam status HTTP e mensagem específicos — o cliente final nunca vê stack trace cru
-- **Resistência a prompt injection testada**: o system prompt define escopo (só responde sobre horário e produtos) e foi testado ativamente tentando "quebrar" o próprio bot antes de considerar essa etapa fechada
+
+- **Escopo definido no system prompt**: o bot é instruído a responder só sobre horário e produtos e a recusar outros assuntos. A resistência a prompt injection ainda não foi testada de forma sistemática
+
 - **DRY real**: `/chat` e `/webhook` chamam a mesma função `perguntar_claude()` — zero duplicação de lógica de IA entre os dois pontos de entrada
 ## Estado atual (honestidade > hype)
 
-- ✅ Lógica de webhook, processamento assíncrono e integração com Claude: **validada e funcional**, testada via simulação de payload (Postman) reproduzindo o formato real de evento `messages.upsert`
+- ✅ Rotas `/chat` e `/webhook`: cobertas por **6 testes automatizados** (`pytest`, rodando no GitHub Actions). Os testes usam o `TestClient` do FastAPI e simulam a chamada ao Claude, então verificam as rotas, o tratamento de erros (401, 429, 504 e 502) e o agendamento do `/webhook` com o payload de `examples/webhook_payload_exemplo.json`, mas não a resposta real do modelo.
 
 - 🚧 Persistência com Supabase: **estrutura pronta, integração pendente**. O schema (`sql/schema.sql`) e as funções de acesso (`app/services/supabase_service.py`) existem, e as tabelas `sessoes` e `mensagens` estão criadas com RLS ativado. Ainda não estão ligadas ao `/webhook`, então hoje nenhuma mensagem é salva. As variáveis `SUPABASE_*` só serão necessárias quando essa integração for ligada.
 
@@ -44,7 +47,7 @@ Em outras palavras: o "cérebro" do bot está pronto e testado. O "cano" que lig
 ## Como rodar localmente
 
 ### Pré-requisitos
-- Python 3.13+
+- Python 3.12
 - Uma chave de API da Anthropic ([console.anthropic.com](https://console.anthropic.com))
 
 ### Passos
